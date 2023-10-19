@@ -2,7 +2,6 @@ name: "To deploy Python app"
 on:
   push:
     branches: [ "main" ]
-  workflow_dispatch:
 permissions:
   contents: read
 jobs:
@@ -27,8 +26,8 @@ jobs:
          script: |
            sudo -i
            export DEBIAN_FRONTEND=noninteractive
+           rm -rf /var/www/html/hello || exit 0
            cd /var/www/html
-           rm -rf hello || exit 0
            git clone https://github.com/sharma04500/hello.git
            cd /var/www/html/hello
            pip install pyinstaller -y || exit 0
