@@ -24,15 +24,16 @@ jobs:
          key: ${{ secrets.KEY }}
          port: ${{ secrets.PORT }}
          script: |
-           sudo export DEBIAN_FRONTEND=noninteractive
-           sudo rm -rf /var/www/html/hello || exit 0
-           sudo cd /var/www/html
-           sudo git clone https://github.com/sharma04500/hello.git
-           sudo cd /var/www/html/hello
-           sudo pip install pyinstaller -y || exit 0
-           sudo cd /var/www/html/hello
-           sudo pyinstaller --onefile hello.py
-           sudo systemctl restart apache2
+           su - ubuntu
+           sudo -i
+           export DEBIAN_FRONTEND=noninteractive
+           cd /var/www/html/hello
+           git pull origin main
+           cd hello
+           pip install pyinstaller -y || exit 0
+           cd /var/www/html/hello
+           pyinstaller --onefile hello.py
+           systemctl restart apache2
 
 ### This script uses an active AWS EC2 instance with pip and pyinstaller pre installed and apache2 preconfigured.
 ### This pipeline automatically runs upon a commit with message containing the keyword "release"
