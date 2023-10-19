@@ -1,0 +1,41 @@
+name: "To deploy Python app"
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  build-and-deploy:
+    if: ${{ success() && contains(github.event.head_commit.message, 'release') }}
+    name: Build and Deploy
+    runs-on: ubuntu-latest
+      defaults:
+        run:
+          shell: bash
+    steps:
+     - name: checkout repo
+       uses: actions/checkout@v3
+
+     - name: executing remote ssh commands using ssh key
+       uses: appleboy/ssh-action@v1.0.0
+       with:
+       host: ${{ secrets.HOST }}
+       username: ${{ secrets.USERNAME }}
+       key: ${{ secrets.KEY }}
+       port: ${{ secrets.PORT }}
+       script: |
+         sudo -i
+         export DEBIAN_FRONTEND=noninteractive
+         cd /root
+         rm -rf hello
+         git clone 
+         cd /root/hello
+         pip install pyinstaller -y || exit 0
+         cd /root/hello
+         pyinstaller --onefile hello.py
+         systemctl restart apache2
+
+### This script uses an active AWS EC2 instance with pip and pyinstaller pre installed and apache2 preconfigured.
+### This pipeline automatically runs upon a commit with message containing the keyword "release"
+
