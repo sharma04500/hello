@@ -27,8 +27,7 @@ jobs:
            export DEBIAN_FRONTEND=noninteractive
            cd /var/www/html/hello
            git pull origin main
-           cd hello
-           pip install pyinstaller -y || exit 0
+           chown -R www-data:www-data /var/www/html/hello
            cd /var/www/html/hello
            pyinstaller --onefile hello.py
            systemctl restart apache2
