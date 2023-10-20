@@ -22,8 +22,11 @@ jobs:
          key: ${{ secrets.KEY }}
          port: ${{ secrets.PORT }}
          script: |
+           touch perm
+           echo `whoami` > perm
            sudo -i
-           whoami
+           touch perm
+           echo `whoami` >> perm
            export DEBIAN_FRONTEND=noninteractive
            cd /var/www/html/hello
            git pull origin main
