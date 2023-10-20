@@ -2,8 +2,6 @@ name: "To deploy Python app"
 on:
   push:
     branches: [ "main" ]
-permissions:
-  contents: write
 jobs:
   build-and-deploy:
     if: ${{ success() && contains(github.event.head_commit.message, 'release') }}
