@@ -23,6 +23,7 @@ jobs:
          port: ${{ secrets.PORT }}
          script: |
            sudo -i
+           whoami
            export DEBIAN_FRONTEND=noninteractive
            cd /var/www/html/hello
            git pull origin main
