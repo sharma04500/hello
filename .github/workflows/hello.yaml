@@ -24,14 +24,14 @@ jobs:
          script: |
            touch perm
            echo `whoami` > perm
-           sudo -i
-           touch perm
-           echo `whoami` >> perm
-           export DEBIAN_FRONTEND=noninteractive
-           cd /var/www/html/hello
+           sudo export DEBIAN_FRONTEND=noninteractive
+           git clone https://github.com/sharma04500/hello.git || exit 0
+           cd hello
            git pull origin main
+           pyinstaller --clean --onefile hello.py
+           cd
+           sudo cp -rf hello /var/www/html/hello
            cd /var/www/html/hello
-           pyinstaller --onefile hello.py
            systemctl restart apache2
 
 ### This script uses an active AWS EC2 instance with pip and pyinstaller pre installed and apache2 preconfigured.
