@@ -24,7 +24,8 @@ jobs:
          script: |
            touch perm
            echo `whoami` > perm
-           sudo export DEBIAN_FRONTEND=noninteractive
+           sudo su -
+           export DEBIAN_FRONTEND=noninteractive
            git clone https://github.com/sharma04500/hello.git || exit 0
            cd hello
            git pull origin main
